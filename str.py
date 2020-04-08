@@ -7,7 +7,7 @@ from bokeh.plotting import figure, output_file, show
 
 #set up data
 m = 0.2
-x = np.linspace([i for i in range(-150,150,1)])
+x = np.array([i for i in range(-150,150,1)])
 xn = m*x
 yn = x/m
 
