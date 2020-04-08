@@ -29,10 +29,21 @@ p.line(x, yn, legend_label="ct'",line_color="blue", line_dash="4 4")
 
 #set up widgets
 velocity = Slider(title="velocity", value=200000, start=-29999999, end=29999999, step=500)
-x_ra = Slider(title="X Range", value=xd, start=100, end=100000, step = 100)
 
 
 #set up call back
+def update(attrname, old, new):
+    
+    #get currennt values
+    vy = velocity.value
+    
+    #generate new x' and ct'
+    m = vy/c
+    xn = m*x
+    yn = x/m
+    
+velocity.on_change('value', update)
+    
 
 #set up layout
 inputs = column(velocity, x_ra)
