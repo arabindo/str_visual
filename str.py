@@ -10,6 +10,7 @@ m = 0.2
 x = np.array([i for i in range(-150,150,1)])
 xn = m*x
 yn = x/m
+dp = ColumnDataSource(data=dict(x=x, y1=xn, y2=yn))
 
 #set up plots
 
@@ -21,8 +22,8 @@ p = figure(plot_height=400, plot_width=400,
             tools=  TOOLS, title="Minkowski Doagram",
             x_range=[-150,150], y_range=[-150,150],
             x_axis_label="x", y_axis_label="ct")
-p.line(x, xn, legend_label="x'", line_color="red", line_dash="4 4")
-p.line(x, yn, legend_label="ct'",line_color="blue", line_dash="4 4")
+p.line(x='x', y='y1', source=dp, legend_label="x'", line_color="red", line_dash="4 4")
+p.line(x='x', y='y2', source=dp, legend_label="ct'",line_color="blue", line_dash="4 4")
 
 
 #set up widgets
@@ -36,15 +37,21 @@ def update(attrname, old, new):
     vy = velocity.value
     
     #generate new x' and ct'
-    m = vy/c
-    xn = m*x
-    yn = x/m
-    
+    if vy == 0:
+        dp.data=dict(x=x, y1=0, y2=0)
+    else:
+        m = vy
+        xn = m*x
+        yn = x/m
+        
+        dp.data=dict(x=x, y1=xn, y2= yn)
+        
+        
 velocity.on_change('value', update)
     
 
 #set up layout
-inputs = column(velocity, x_ra)
+inputs = column(velocity)
 
 curdoc().add_root(row(inputs, p, width=800))
 curdoc().title = "Interactive Minkowski Diagram"
