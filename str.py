@@ -38,7 +38,8 @@ def update(attrname, old, new):
     
     #generate new x' and ct'
     if vy == 0:
-        dp.data=dict(x=x, y1=0, y2=0)
+        yd=np.array([i*0 for i in range(-150,150,1)])
+        dp.data=dict(x=x, y1=yd, y2=yd)
     else:
         m = vy
         xn = m*x
